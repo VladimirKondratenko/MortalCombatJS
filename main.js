@@ -1,7 +1,10 @@
+const arena = document.querySelector('.arenas');
+const randomButton = document.querySelector('.button');
+
 const firstPlayer = {
   player: 1,
   name: 'Scorpion',
-  hp: 80,
+  hp: 100,
   img: './assets/scorpion.gif',
   weapon: ['sword', 'gun', 'mace', 'knife', 'shotgun'],
   attack: function () {
@@ -12,7 +15,7 @@ const firstPlayer = {
 const secondPlayer = {
   player: 2,
   name: 'Liukang',
-  hp: 50,
+  hp: 100,
   img: './assets/liukang.gif',
   weapon: ['gloves', 'bow', 'arrows', 'shuriken', 'gun'],
   attack: function () {
@@ -20,7 +23,7 @@ const secondPlayer = {
   }
 }
 
-function createElement(tag, className) {
+const createElement = (tag, className) => {
   const $tag = document.createElement(tag);
 
   if (className) {
@@ -29,8 +32,6 @@ function createElement(tag, className) {
 
   return $tag;
 }
-
-const arena = document.querySelector('.arenas')
 
 const createPlayer = (player) => {
   const divPlayer = createElement('div', 'player' + player.player);
@@ -53,10 +54,41 @@ const createPlayer = (player) => {
   divPlayer.appendChild(divcharacter);
   divProgressbar.appendChild(divName);
 
-
-  // rootRef.appendChild(divPlayer);
   return divPlayer;
 };
+
+const randomNumber = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+const changeHP = (player) => {
+  const playerLife = document.querySelector('.player' + player.player + ' .life');
+
+  console.log('randomNumber', randomNumber(1, 20));
+
+  if (player.hp <= 0) {
+    player.hp = 0
+    playerLife.style.width = player.hp + '%';
+    arena.appendChild(playerLose(player.name));
+  } else {
+    player.hp -= randomNumber(1, 20);
+    playerLife.style.width = player.hp + '%';
+  }
+  console.log('player hp', player.hp)
+};
+
+const playerLose = (name) => {
+  const loseTitle = createElement('div', 'loseTitle');
+  loseTitle.innerText = name + 'lose';
+
+  return loseTitle;
+};
+
+randomButton.addEventListener('click',
+  function () {
+    changeHP(firstPlayer);
+    changeHP(secondPlayer);
+});
 
 arena.appendChild(createPlayer(firstPlayer));
 arena.appendChild(createPlayer(secondPlayer));
