@@ -1,88 +1,62 @@
 const firstPlayer = {
-  name: 'firstPlayer',
-  hp: 100,
-  img: 'path',
+  player: 1,
+  name: 'Scorpion',
+  hp: 80,
+  img: './assets/scorpion.gif',
   weapon: ['sword', 'gun', 'mace', 'knife', 'shotgun'],
-  attack () {
-    alert(`${firstPlayer.name} + Fight!`);
+  attack: function () {
+    console.log(`${firstPlayer.name} + Fight!`);
   }
 }
 
 const secondPlayer = {
-  name: 'secondPlayer',
-  hp: 100,
-  img: 'path',
+  player: 2,
+  name: 'Liukang',
+  hp: 50,
+  img: './assets/liukang.gif',
   weapon: ['gloves', 'bow', 'arrows', 'shuriken', 'gun'],
-  attack () {
-    alert(`${firstPlayer.name} + Fight!`);
+  attack: function () {
+    alert(`${secondPlayer.name} + Fight!`);
   }
 }
 
-const rootRef = document.querySelector('.arenas')
+function createElement(tag, className) {
+  const $tag = document.createElement(tag);
 
-const createPlayer = (name, player) => {
-  const divPlayer = document.createElement("div");
-  divPlayer.className = `${name}`;
+  if (className) {
+    $tag.classList.add(className);
+  }
 
-  const divProgressbar = document.createElement("div");
-  divProgressbar.className = "progressbar ";
+  return $tag;
+}
 
-  const divcharacter = document.createElement("div");
-  divcharacter.className = "character ";
+const arena = document.querySelector('.arenas')
 
-  const divLife = document.createElement("div");
-  divLife.className = "life";
-  divLife.style.width = `${player.hp}%"`;
+const createPlayer = (player) => {
+  const divPlayer = createElement('div', 'player' + player.player);
+  const divProgressbar = createElement('div', 'progressbar');
+  const divcharacter = createElement('div', 'character');
+  const divLife = createElement('div', 'life');
+  const divName = createElement('div', 'name');
+  const imgCharacter = createElement('img');
 
-  const divName = document.createElement("div");
-  divName.className = "name";
-  divName.innerText = `${player.name}`
-
-  const imgCharacter = document.createElement("img");
-  imgCharacter.src="http://reactmarathon-api.herokuapp.com/assets/scorpion.gif"
-
-
-  divPlayer.appendChild(divProgressbar);
-  divProgressbar.appendChild(divLife);
-  divProgressbar.appendChild(divName);
-  divPlayer.appendChild(divcharacter);
-  divcharacter.appendChild(imgCharacter);
-  rootRef.appendChild(divPlayer);
-};
-
-/*
-const rootRef = document.querySelector('.arenas')
-
-const createPlayer = (namePlayer, nameHero, countLife) => {
-  const divPlayer = document.createElement("div");
-  divPlayer.className = `${namePlayer}`;
-
-  const divProgressbar = document.createElement("div");
-  divProgressbar.className = "progressbar ";
-
-  const divcharacter = document.createElement("div");
-  divcharacter.className = "character ";
-
-  const divLife = document.createElement("div");
-  divLife.className = "life";
-  divLife.style.width = `${countLife}%"`;
-
-  const divName = document.createElement("div");
-  divName.className = "name";
-  divName.innerText = `${nameHero}`
-
-  const imgCharacter = document.createElement("img");
-  imgCharacter.src="http://reactmarathon-api.herokuapp.com/assets/scorpion.gif"
-
+  console.log('${player.hp}', player.hp);
+  divLife.style.width = `${player.hp}%`;
+  divName.innerText = `${player.name}`;
+  imgCharacter.src = `${player.img}`;
 
   divPlayer.appendChild(divProgressbar);
   divProgressbar.appendChild(divLife);
-  divProgressbar.appendChild(divName);
-  divPlayer.appendChild(divcharacter);
+
   divcharacter.appendChild(imgCharacter);
-  rootRef.appendChild(divPlayer);
+
+  divPlayer.appendChild(divcharacter);
+  divProgressbar.appendChild(divName);
+
+
+  // rootRef.appendChild(divPlayer);
+  return divPlayer;
 };
 
-*/
-createPlayer('player1', firstPlayer);
-createPlayer('player2', secondPlayer);
+arena.appendChild(createPlayer(firstPlayer));
+arena.appendChild(createPlayer(secondPlayer));
