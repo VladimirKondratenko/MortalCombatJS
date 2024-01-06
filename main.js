@@ -41,7 +41,6 @@ const createPlayer = (player) => {
   const divName = createElement('div', 'name');
   const imgCharacter = createElement('img');
 
-  console.log('${player.hp}', player.hp);
   divLife.style.width = `${player.hp}%`;
   divName.innerText = `${player.name}`;
   imgCharacter.src = `${player.img}`;
@@ -64,22 +63,19 @@ const randomNumber = (min, max) => {
 const changeHP = (player) => {
   const playerLife = document.querySelector('.player' + player.player + ' .life');
 
-  console.log('randomNumber', randomNumber(1, 20));
+  player.hp -= randomNumber(1, 20);
 
   if (player.hp <= 0) {
-    player.hp = 0
-    playerLife.style.width = player.hp + '%';
-    arena.appendChild(playerLose(player.name));
-  } else {
-    player.hp -= randomNumber(1, 20);
-    playerLife.style.width = player.hp + '%';
+    player.hp = 0;
+    playerLife.style.width = 0 + '%';
   }
-  console.log('player hp', player.hp)
+
+  playerLife.style.width = player.hp + '%';
 };
 
-const playerLose = (name) => {
+const getResultText = (name, text) => {
   const loseTitle = createElement('div', 'loseTitle');
-  loseTitle.innerText = name + 'lose';
+  loseTitle.innerText = name + text;
 
   return loseTitle;
 };
@@ -88,6 +84,16 @@ randomButton.addEventListener('click',
   function () {
     changeHP(firstPlayer);
     changeHP(secondPlayer);
+    if (firstPlayer.hp <= 0 && firstPlayer.hp < secondPlayer.hp) {
+      arena.appendChild(getResultText(secondPlayer.name, ' WIN'));
+      randomButton.disabled = true
+    } else if (secondPlayer.hp <= 0 && secondPlayer.hp < firstPlayer.hp) {
+      arena.appendChild(getResultText(firstPlayer.name, ' WIN'));
+      randomButton.disabled = true
+    } else if (firstPlayer.hp === 0 && secondPlayer.hp === 0) {
+      arena.appendChild(getResultText('', 'DRAW'));
+      randomButton.disabled = true
+    }
 });
 
 arena.appendChild(createPlayer(firstPlayer));
