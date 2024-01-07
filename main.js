@@ -57,7 +57,7 @@ const createPlayer = (player) => {
 };
 
 const randomNumber = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
+  return Math.floor(Math.random() * (max - min) + min);
 }
 
 const changeHP = (player) => {
@@ -67,7 +67,6 @@ const changeHP = (player) => {
 
   if (player.hp <= 0) {
     player.hp = 0;
-    playerLife.style.width = 0 + '%';
   }
 
   playerLife.style.width = player.hp + '%';
@@ -85,14 +84,14 @@ randomButton.addEventListener('click',
     changeHP(firstPlayer);
     changeHP(secondPlayer);
     if (firstPlayer.hp <= 0 && firstPlayer.hp < secondPlayer.hp) {
-      arena.appendChild(getResultText(secondPlayer.name, ' WIN'));
+      arena.appendChild(getResultText(secondPlayer.name, ' WINS'));
       randomButton.disabled = true
     } else if (secondPlayer.hp <= 0 && secondPlayer.hp < firstPlayer.hp) {
-      arena.appendChild(getResultText(firstPlayer.name, ' WIN'));
+      arena.appendChild(getResultText(firstPlayer.name, ' WINS'));
       randomButton.disabled = true
-    } else if (firstPlayer.hp === 0 && secondPlayer.hp === 0) {
+    } else  {
       arena.appendChild(getResultText('', 'DRAW'));
-      randomButton.disabled = true
+      randomButton.disabled = true;
     }
 });
 
